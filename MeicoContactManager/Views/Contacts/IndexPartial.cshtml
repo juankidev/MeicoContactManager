@@ -38,11 +38,24 @@
                                 <td>@contact.Name</td>
                                 <td>@contact.Email</td>
                                 <td>@contact.PhoneNumber</td>
-                                <td>@contact.Address</td>
-                                <td>@contact.Company</td>
-                                <td>
-                                    <button type="button" class="btn btn-secondary btn-sm" onclick="SeeNote('@contact.Note', '@contact.Name')">See note</button>
-                                </td>
+                                <td>@(string.IsNullOrEmpty(contact.Address) ? "No registra." : contact.Address)</td>
+                                <td>@(string.IsNullOrEmpty(contact.Company) ? "No registra." : contact.Company)</td>
+
+                                @if (string.IsNullOrEmpty(contact.Note))
+                                {
+                                    <td>
+                                        <button type="button" class="btn btn-secondary btn-sm"
+                                                onclick="SeeNote('@contact.Note', '@contact.Name')">
+                                            See note
+                                        </button>
+                                    </td>
+
+                                }
+                                else
+                                {
+                                    <td>No Registra.</td>
+                                }
+
                                 <td>
                                     <button type="button" class="btn btn-primary btn-sm"
                                             onclick="UpdateContactModal({
