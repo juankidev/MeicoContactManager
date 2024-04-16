@@ -1,0 +1,412 @@
+﻿<div class="pagetitle">
+    <h1>Contacts</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item">Contacts</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section" id="partial">
+</section>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("IndexPartial", "Contacts")',
+                type: "POST",
+                async: true,
+                data: {},
+                dataType: "HTML",
+                beforeSend: function () {
+                    $.blockUI({
+                        css: {
+                            border: 'none',
+                            padding: '15px',
+                            backgroundColor: 'none',
+                            '-webkit-border-radius': '10px',
+                            '-moz-border-radius': '10px',
+                            opacity: .7,
+                            color: '#fff',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        },
+                        message: '<div class="honeycomb">'
+                            + '<div></div>'
+                            + '<div></div>'
+                            + '<div></div>'
+                            + '<div></div>'
+                            + '<div></div>'
+                            + '<div></div>'
+                            + '<div></div>'
+                            + '</div>'
+                    })
+                },
+                success: function (data) {
+                    $("#partial").html(data);
+                },
+                complete: function () {
+                    $('#contact-table').DataTable();
+                    $.unblockUI();
+                }
+            });
+        });
+
+        //Abrir modal para registrar cliente
+        function AddContactModal() {
+            $.ajax({
+                url: '@Url.Action("AddContactModal", "Contacts")',
+                type: "POST",
+                async: true,
+                data: {},
+                dataType: "HTML",
+                beforeSend: function () {
+                    $.blockUI({
+                        css: {
+                            border: 'none',
+                            padding: '15px',
+                            backgroundColor: 'none',
+                            '-webkit-border-radius': '10px',
+                            '-moz-border-radius': '10px',
+                            opacity: .7,
+                            color: '#fff',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        },
+                        message: '<div class="honeycomb">'
+                            + '<div></div>'
+                            + '<div></div>'
+                            + '<div></div>'
+                            + '<div></div>'
+                            + '<div></div>'
+                            + '<div></div>'
+                            + '<div></div>'
+                            + '</div>'
+                    })
+                },
+                success: function (data) {
+                    bootbox.confirm({
+                        size: "large",
+                        closeButton: false,
+                        message: data,
+                        callback: AddContact
+                    }).on('shown.bs.modal', function () {
+                        $('#formContact').validate();
+                    });
+                },
+                complete: function () {
+                    $.unblockUI();
+                }
+            });
+        }
+
+        function AddContact(result) {
+            if (result) {
+                if ($('#formContact').valid()) {
+                    var form = $('#formRequisitos')[0];
+                    const dataForm = {
+                        name: $("#name").val(),
+                        email: $("#email").val(),
+                        phoneNumber: $("#phone").val(),
+                        address: $("#address").val(),
+                        company: $("#company").val(),
+                        note: $("#note").val()
+                    };
+
+                    $.ajax({
+                        url: '@Url.Action("AddContact", "Contacts")',
+                        type: "POST",
+                        async: true,
+                        data: dataForm,
+                        dataType: "JSON",
+                        beforeSend: function () {
+                            $.blockUI({
+                                css: {
+                                    border: 'none',
+                                    padding: '15px',
+                                    backgroundColor: 'none',
+                                    '-webkit-border-radius': '10px',
+                                    '-moz-border-radius': '10px',
+                                    opacity: .7,
+                                    color: '#fff',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                },
+                                message: '<div class="honeycomb">'
+                                    + '<div></div>'
+                                    + '<div></div>'
+                                    + '<div></div>'
+                                    + '<div></div>'
+                                    + '<div></div>'
+                                    + '<div></div>'
+                                    + '<div></div>'
+                                    + '</div>'
+                            })
+                        },
+                        success: function (response) {
+                            if (response) {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'The contact was registered successfully!',
+                                    showConfirmButton: true
+                                }).then((result) => {
+                                    window.location.reload();
+                                });
+                            }
+                            else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Oops...",
+                                    text: "An error occurred while creating the contact"
+                                });
+                            }
+                        },
+                        complete: function () {
+                            $.unblockUI();
+                        }
+                    });
+                } else {
+                    $("label.error").html("This field is required");
+                    $("label.error").css("color", "red");
+                    return false;
+                }
+            }
+        }
+
+        function UpdateContactModal(request) {
+            $.ajax({
+                url: '@Url.Action("UpdateContactModal", "Contacts")',
+                type: "POST",
+                async: true,
+                data: {},
+                dataType: "HTML",
+                beforeSend: function () {
+                    $.blockUI({
+                        css: {
+                            border: 'none',
+                            padding: '15px',
+                            backgroundColor: 'none',
+                            '-webkit-border-radius': '10px',
+                            '-moz-border-radius': '10px',
+                            opacity: .7,
+                            color: '#fff',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        },
+                        message: '<div class="honeycomb">'
+                            + '<div></div>'
+                            + '<div></div>'
+                            + '<div></div>'
+                            + '<div></div>'
+                            + '<div></div>'
+                            + '<div></div>'
+                            + '<div></div>'
+                            + '</div>'
+                    })
+                },
+                success: function (data) {
+                    bootbox.confirm({
+                        size: "large",
+                        closeButton: false,
+                        message: data,
+                        callback: function (result) {
+                            UpdateContact(request.contactId, result)
+                        }
+                    }).on('shown.bs.modal', function () {
+                        $('#formContact').validate();
+                    });
+                },
+                complete: function () {
+                    $("#name").val(request.name),
+                        $("#email").val(request.email),
+                        $("#phone").val(request.phoneNumber),
+                        $("#address").val(request.address),
+                        $("#company").val(request.company),
+                        $("#note").val(request.note)
+                    $.unblockUI();
+                }
+            });
+        }
+
+        function UpdateContact(id, result) {
+            if (result) {
+                if ($('#formContact').valid()) {
+                    var form = $('#formRequisitos')[0];
+                    const dataForm = {
+                        contactId: id,
+                        name: $("#name").val(),
+                        email: $("#email").val(),
+                        phoneNumber: $("#phone").val(),
+                        address: $("#address").val(),
+                        company: $("#company").val(),
+                        note: $("#note").val()
+                    };
+
+                    $.ajax({
+                        url: '@Url.Action("UpdateContact", "Contacts")',
+                        type: "POST",
+                        async: true,
+                        data: dataForm,
+                        dataType: "JSON",
+                        beforeSend: function () {
+                            $.blockUI({
+                                css: {
+                                    border: 'none',
+                                    padding: '15px',
+                                    backgroundColor: 'none',
+                                    '-webkit-border-radius': '10px',
+                                    '-moz-border-radius': '10px',
+                                    opacity: .7,
+                                    color: '#fff',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                },
+                                message: '<div class="honeycomb">'
+                                    + '<div></div>'
+                                    + '<div></div>'
+                                    + '<div></div>'
+                                    + '<div></div>'
+                                    + '<div></div>'
+                                    + '<div></div>'
+                                    + '<div></div>'
+                                    + '</div>'
+                            })
+                        },
+                        success: function (response) {
+                            if (response) {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'The contact was updated successfully!',
+                                    showConfirmButton: true
+                                }).then((result) => {
+                                    window.location.reload();
+                                });
+                            }
+                            else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Oops...",
+                                    text: "An error occurred while updating the contact"
+                                });
+                            }
+                        },
+                        complete: function () {
+                            $.unblockUI();
+                        }
+                    });
+                } else {
+                    $("label.error").html("This field is required");
+                    $("label.error").css("color", "red");
+                    return false;
+                }
+            }
+        }
+
+        function DeleteContact(id, name) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-success",
+                    cancelButton: "btn btn-danger"
+                },
+                buttonsStyling: false
+            });
+
+            swalWithBootstrapButtons.fire({
+                title: "Are you sure?",
+                text: "Are you sure you want to eliminate " + name + "?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel!",
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '@Url.Action("DeleteContact", "Contacts")',
+                        type: "POST",
+                        async: true,
+                        data: { contactId: id },
+                        dataType: "JSON",
+                        beforeSend: function () {
+                            $.blockUI({
+                                css: {
+                                    border: 'none',
+                                    padding: '15px',
+                                    backgroundColor: 'none',
+                                    '-webkit-border-radius': '10px',
+                                    '-moz-border-radius': '10px',
+                                    opacity: .7,
+                                    color: '#fff',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                },
+                                message: '<div class="honeycomb">'
+                                    + '<div></div>'
+                                    + '<div></div>'
+                                    + '<div></div>'
+                                    + '<div></div>'
+                                    + '<div></div>'
+                                    + '<div></div>'
+                                    + '<div></div>'
+                                    + '</div>'
+                            })
+                        },
+                        success: function (response) {
+                            if (response) {
+                                swalWithBootstrapButtons.fire({
+                                    title: "Deleted!",
+                                    text: "Your contact has been deleted.",
+                                    icon: "success"
+                                }).then((result) => {
+                                    window.location.reload();
+                                });
+                            }
+                            else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Oops...",
+                                    text: "An error occurred while updating the contact"
+                                });
+                            }
+                        },
+                        complete: function () {
+                            $.unblockUI();
+                        }
+                    });
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire({
+                        title: "Cancelled",
+                        text: "Your contact will not be deleted :)",
+                        icon: "error"
+                    });
+                }
+            });
+        }
+
+        function SeeNote(note, name) {
+            Swal.fire({
+                title: `${name} - Note`,
+                icon: "info",
+                html: `
+                    <p>
+                        ${note}
+                    </p>
+                  `
+            });
+        }
+
+    </script>
+}

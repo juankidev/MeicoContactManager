@@ -1,0 +1,12 @@
+﻿@page
+@model ConfirmEmailModel
+@{
+    ViewData["Title"] = "Confirm email";
+    Layout = "/Views/Shared/_RegisterLayout.cshtml";
+}
+
+<div class="container p-5">
+    <h1>@ViewData["Title"]</h1>
+    <partial name="_StatusMessage" model="Model.StatusMessage" />
+    <a href="/">Go to home!</a>
+</div>
