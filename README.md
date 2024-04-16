@@ -64,10 +64,9 @@ GO
 Una vez terminadas todas las configuraciones de base de datos, puede correr el aplicativo web abriendo la solución en Visual Studio 2022.
 
 En la base de datos ya estarán varios usuarios registrados, pero si desea una experiencia desde cero, puede registrarse utilizando el enlace de la parte inferior del Login. A continuación se proporcionan dos usuarios registrados en el backup de la base de datos.
-USUARIO                          |PASSWORD                         |
-|----------------|-------------------------------|-----------------------------|
-assesmentmeico@gmail.com            |MeicoAssesment2024#            |
-juancamdev@gmail.com            |Luz31101311#            |
+
+assesmentmeico@gmail.com     MeicoAssesment2024#
+juancamdev@gmail.com         Luz31101311#
 
 
 ## Agradecimientos
